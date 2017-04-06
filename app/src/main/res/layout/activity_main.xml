@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.sveloso.labyrinth.MainActivity">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tileNW"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileNW3"
+            android:background="@android:color/transparent"
+
+
+            android:src="@mipmap/img_top"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileNW2"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/img_bot"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileNW1"
+            android:background="@android:color/transparent"
+
+            android:src="@mipmap/img_left"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileNW0"
+            android:background="@android:color/transparent"
+
+            android:src="@mipmap/img_right"/>
+    </FrameLayout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tileN"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentTop="true"
+                 android:layout_toRightOf="@+id/tileNW"
+                 android:layout_toEndOf="@+id/tileNW" >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileN3"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileN2"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileN1"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileN0"
+            android:src="@mipmap/tile_closed"/>
+    </FrameLayout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tileNE"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_alignParentTop="true"
+                 android:layout_toRightOf="@+id/tileN"
+                 android:layout_toEndOf="@+id/tileN">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileNE3"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileNE2"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileNE1"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileNE0"
+            android:src="@mipmap/tile_closed"/>
+    </FrameLayout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tileW"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/tileNW"
+                 android:layout_alignParentLeft="true"
+                 android:layout_alignParentStart="true">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileW3"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileW2"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileW1"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileW0"
+            android:src="@mipmap/tile_closed"/>
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/player"
+        android:src="@mipmap/ic_launcher"
+        android:layout_below="@+id/tileNW"
+        android:layout_toRightOf="@+id/tileNW"
+        android:layout_toEndOf="@+id/tileNW"/>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tileE"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/tileNW"
+                 android:layout_toRightOf="@+id/tileN">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileE3"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileE2"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileE1"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileE0"
+            android:src="@mipmap/tile_closed"/>
+    </FrameLayout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tileSW"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/tileW"
+                 android:layout_alignParentLeft="true"
+                 android:layout_alignParentStart="true" >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileSW3"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileSW2"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileSW1"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileSW0"
+            android:src="@mipmap/tile_closed"/>
+    </FrameLayout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tileS"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/tileW"
+                 android:layout_toRightOf="@+id/tileW"
+                 android:layout_toEndOf="@+id/tileW" >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileS3"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileS2"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileS1"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileS0"
+            android:src="@mipmap/tile_closed"/>
+    </FrameLayout>
+
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/tileSE"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@+id/tileE"
+                 android:layout_toRightOf="@+id/tileS"
+                 android:layout_toEndOf="@+id/tileS" >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileSE3"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileSE2"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileSE1"
+            android:src="@mipmap/tile_closed"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/tileSE0"
+            android:src="@mipmap/tile_closed"/>
+    </FrameLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="^"
+        android:id="@+id/btnUp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:maxWidth="50dp"
+        android:width="50dp"
+        android:elegantTextHeight="false"
+        android:maxHeight="50dp"
+        android:minHeight="50dp"
+        android:minWidth="50dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="v"
+        android:id="@+id/btnDown"
+        android:maxWidth="50dp"
+        android:width="50dp"
+        android:elegantTextHeight="false"
+        android:maxHeight="50dp"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:layout_below="@+id/btnUp"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&lt;"
+        android:id="@+id/btnLeft"
+        android:maxWidth="50dp"
+        android:width="50dp"
+        android:elegantTextHeight="false"
+        android:maxHeight="50dp"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:layout_alignBottom="@+id/btnDown"
+        android:layout_alignRight="@+id/tileSE"
+        android:layout_alignEnd="@+id/tileSE"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=">"
+        android:id="@+id/btnRight"
+        android:maxWidth="50dp"
+        android:width="50dp"
+        android:elegantTextHeight="false"
+        android:maxHeight="50dp"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:layout_alignBottom="@+id/btnDown"
+        android:layout_toRightOf="@+id/btnDown"
+        android:layout_toEndOf="@+id/btnDown"/>
+</RelativeLayout>
