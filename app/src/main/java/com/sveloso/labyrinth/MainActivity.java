@@ -1,12 +1,15 @@
 package com.sveloso.labyrinth;
 
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ImageView;
 
 import java.util.LinkedHashMap;
@@ -14,23 +17,23 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FrameLayout frameNW;
-    private FrameLayout frameN;
-    private FrameLayout frameNE;
+    private ImageView imgNW;
+    private ImageView imgN;
+    private ImageView imgNE;
 
-    private FrameLayout frameW;
-    private FrameLayout frameE;
+    private ImageView imgW;
+    private ImageView imgE;
 
-    private FrameLayout frameSW;
-    private FrameLayout frameS;
-    private FrameLayout frameSE;
+    private ImageView imgSW;
+    private ImageView imgS;
+    private ImageView imgSE;
 
     private Button btnUp;
     private Button btnDown;
     private Button btnLeft;
     private Button btnRight;
     
-    private Map<Tile, FrameLayout> tileFrameMap;
+    private Map<Tile, ImageView> tileimgMap;
 
     private Maze mazeObj;
     private Tile[][] maze;
@@ -43,18 +46,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        tileFrameMap = new LinkedHashMap<>();
+        tileimgMap = new LinkedHashMap<>();
 
-        frameNW = (FrameLayout) findViewById(R.id.tileNW);
-        frameN = (FrameLayout) findViewById(R.id.tileN);
-        frameNE = (FrameLayout) findViewById(R.id.tileNE);
+        imgNW = (ImageView) findViewById(R.id.imgNW);
+        imgN = (ImageView) findViewById(R.id.imgN);
+        imgNE = (ImageView) findViewById(R.id.imgNE);
 
-        frameW = (FrameLayout) findViewById(R.id.tileW);
-        frameE = (FrameLayout) findViewById(R.id.tileE);
+        imgW = (ImageView) findViewById(R.id.imgW);
+        imgE = (ImageView) findViewById(R.id.imgE);
 
-        frameSW = (FrameLayout) findViewById(R.id.tileSW);
-        frameS = (FrameLayout) findViewById(R.id.tileS);
-        frameSE = (FrameLayout) findViewById(R.id.tileSE);
+        imgSW = (ImageView) findViewById(R.id.imgSW);
+        imgS = (ImageView) findViewById(R.id.imgS);
+        imgSE = (ImageView) findViewById(R.id.imgSE);
 
         btnUp = (Button) findViewById(R.id.btnUp);
         btnUp.setOnClickListener(new View.OnClickListener() {
@@ -129,82 +132,62 @@ public class MainActivity extends AppCompatActivity {
             btnLeft.setEnabled(false);
         }
         
-        updateTileFrameMap();
+        updateTileimgMap();
     }
     
-    private void updateTileFrameMap () {
-        tileFrameMap.put(maze[currY - 1][currX - 1], frameNW);
-        tileFrameMap.put(maze[currY - 1][currX], frameN);
-        tileFrameMap.put(maze[currY - 1][currX + 1], frameNE);
+    private void updateTileimgMap () {
+        tileimgMap = new LinkedHashMap<>();
+        tileimgMap.put(maze[currY - 1][currX - 1], imgNW);
+        tileimgMap.put(maze[currY - 1][currX], imgN);
+        tileimgMap.put(maze[currY - 1][currX + 1], imgNE);
 
-        tileFrameMap.put(maze[currY][currX - 1], frameW);
-        tileFrameMap.put(maze[currY][currX - 1], frameE);
+        tileimgMap.put(maze[currY][currX - 1], imgW);
+        tileimgMap.put(maze[currY][currX + 1], imgE);
 
-        tileFrameMap.put(maze[currY + 1][currX - 1], frameSW);
-        tileFrameMap.put(maze[currY + 1][currX], frameS);
-        tileFrameMap.put(maze[currY + 1][currX + 1], frameSE);
+        tileimgMap.put(maze[currY + 1][currX - 1], imgSW);
+        tileimgMap.put(maze[currY + 1][currX], imgS);
+        tileimgMap.put(maze[currY + 1][currX + 1], imgSE);
     }
 
     private void initializeTiles() {
-        for (Map.Entry<Tile, FrameLayout> entry : tileFrameMap.entrySet()) {
+        for (Map.Entry<Tile, ImageView> entry : tileimgMap.entrySet()) {
             Tile tile = entry.getKey();
-            FrameLayout frame = entry.getValue();
+            ImageView img = entry.getValue();
 
-            for (int i = 0; i < frame.getChildCount(); i++) {
-                switch (i) {
-                    case 0:
-                        ImageView frame0 = (ImageView) frame.getChildAt(i);
-                        if (tile instanceof Block) {
-                            frame0.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_block));
-                        } else {
-                            Cell cell = (Cell) tile;
-                            if (!cell.isNorth()) {
-                                frame0.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_top));
-                            } else {
-                                frame0.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_block));
-                            }
-                        }
-                        break;
-                    case 1:
-                        ImageView frame1 = (ImageView) frame.getChildAt(i);
-                        if (tile instanceof Block) {
-                            frame1.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_block));
-                        } else {
-                            Cell cell = (Cell) tile;
-                            if (!cell.isEast()) {
-                                frame1.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_right));
-                            } else {
-                                frame1.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_block));
-                            }
-                        }
-                        break;
-                    case 2:
-                        ImageView frame2 = (ImageView) frame.getChildAt(i);
-                        if (tile instanceof Block) {
-                            frame2.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_block));
-                        } else {
-                            Cell cell = (Cell) tile;
-                            if (!cell.isSouth()) {
-                                frame2.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_bot));
-                            } else {
-                                frame2.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_block));
-                            }
-                        }
-                        break;
-                    case 3:
-                        ImageView frame3 = (ImageView) frame.getChildAt(i);
-                        if (tile instanceof Block) {
-                            frame3.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_block));
-                        } else {
-                            Cell cell = (Cell) tile;
-                            if (!cell.isNorth()) {
-                                frame3.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_left));
-                            } else {
-                                frame3.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_block));
-                            }
-                        }
-                        break;
+            if (tile instanceof Block) {
+                img.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_block));
+            } else {
+                Cell cell = (Cell) tile;
+
+                Resources r = getResources();
+                Drawable[] layers = new Drawable[4];
+
+                if (!cell.isNorth()) {
+                    layers[0] = r.getDrawable(R.mipmap.img_top);
+                } else {
+                    layers[0] = r.getDrawable(R.mipmap.img_open);
                 }
+
+                if (!cell.isEast()) {
+                    layers[1] = r.getDrawable(R.mipmap.img_right);
+                } else {
+                    layers[1] = r.getDrawable(R.mipmap.img_open);
+                }
+
+                if (!cell.isSouth()) {
+                    layers[2] = r.getDrawable(R.mipmap.img_bot);
+                } else {
+                    layers[2] = r.getDrawable(R.mipmap.img_open);
+                }
+
+                if (!cell.isWest()) {
+                    layers[3] = r.getDrawable(R.mipmap.img_left);
+                } else {
+                    layers[3] = r.getDrawable(R.mipmap.img_open);
+                }
+
+                LayerDrawable layerDrawable = new LayerDrawable(layers);
+                img.setImageDrawable(layerDrawable);
             }
         }
     }

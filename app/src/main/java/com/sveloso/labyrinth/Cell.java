@@ -30,7 +30,7 @@ public class Cell extends Tile{
         north = true;
     }
 
-    public void breakRight() {
+    public void breakLeft() {
         west = true;
     }
 
@@ -38,7 +38,7 @@ public class Cell extends Tile{
         south = true;
     }
 
-    public void breakLeft() {
+    public void breakRight() {
         east = true;
     }
 

@@ -1,7 +1,10 @@
 package com.sveloso.labyrinth;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Stack;
 
@@ -19,10 +22,10 @@ public class Maze {
     private int startY;
 
     public Maze() {
-        maze = new Cell[WIDTH + 2][HEIGHT + 2];
+        maze = new Tile[WIDTH][HEIGHT];
         generator = new Random();
-        startX = generator.nextInt(WIDTH - 1) + 1; // avoids first and last index (Blocks surrounding the maze)
-        startY = generator.nextInt(HEIGHT - 1) + 1; // avoids first and last index (Blocks surrounding the maze)
+        startX = generator.nextInt(WIDTH - 2) + 1; // avoids first and last index (Blocks surrounding the maze)
+        startY = generator.nextInt(HEIGHT - 2) + 1; // avoids first and last index (Blocks surrounding the maze)
         generateMaze();
     }
 
@@ -55,62 +58,52 @@ public class Maze {
 
         // While there are unvisited cells
         while (numVisited < totalCells) {
+            Map<Integer, Cell> unvisitedNeighbors = new LinkedHashMap<>();
 
-            List<Cell> unvisitedNeighbors = new LinkedList<>();
-            List<Integer> unvisitedIndexes = new LinkedList<>();
             int upY = current.getY() - 1;
             int downY = current.getY() + 1;
             int rightX = current.getX() + 1;
             int leftX = current.getX() - 1;
 
-            int indexCounter = 0;
-
             // Check unvisited neighbors
-            if (upY >= 0) /* if the cell above the current cell is a valid cell */ {
+            if (upY >= 0) /* if the cell above the current cell is a valid tile */ {
                 Tile c = maze[upY][current.getX()];
                 // if the valid cell is not visited, add it as an unvisited neighbor
                 if (!c.isVisited()) {
-                    unvisitedNeighbors.add((Cell) c);
-                    unvisitedIndexes.add(indexCounter);
-                    indexCounter++;
+                    unvisitedNeighbors.put(0, (Cell) c);
                 }
             }
             if (rightX < WIDTH) {
                 Tile c = maze[current.getY()][rightX];
                 if (!c.isVisited()) {
-                    unvisitedNeighbors.add((Cell) c);
-                    unvisitedIndexes.add(indexCounter);
-                    indexCounter++;
+                    unvisitedNeighbors.put(1, (Cell) c);
                 }
             }
             if (downY < HEIGHT) {
                 Tile c = maze[downY][current.getX()];
                 if (!c.isVisited()) {
-                    unvisitedNeighbors.add((Cell) c);
-                    unvisitedIndexes.add(indexCounter);
-                    indexCounter++;
+                    unvisitedNeighbors.put(2, (Cell) c);
                 }
             }
             if (leftX >= 0) {
                 Tile c = maze[current.getY()][leftX];
                 if (!c.isVisited()) {
-                    unvisitedNeighbors.add((Cell) c);
-                    unvisitedIndexes.add(indexCounter);
+                    unvisitedNeighbors.put(3, (Cell) c);
                 }
             }
 
             // If the current cell has any neighbours which have not been visited
             if (unvisitedNeighbors.size() > 0) {
                 // Choose randomly one of the unvisited neighbors
-                int randPos = generator.nextInt(unvisitedIndexes.size());
-                int pos = unvisitedIndexes.get(randPos);
-                Cell randomUnvisitedNeighbor = unvisitedNeighbors.get(pos);
+                List<Integer> keys = new ArrayList<>(unvisitedNeighbors.keySet());
+                int randomInt = keys.get(generator.nextInt(keys.size()));
+                Cell randomUnvisitedNeighbor = unvisitedNeighbors.get(randomInt);
 
                 // Push the current cell to the stack
                 visited.push(current);
 
                 // Remove the wall between the current cell and the chosen cell
-                switch (pos) {
+                switch (randomInt) {
                     case 0 /* open path upward */ :
                         current.breakTop();
                         randomUnvisitedNeighbor.breakBot();
