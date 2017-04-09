@@ -49,7 +49,7 @@ public class Maze {
         generator = new Random();
         startX = generator.nextInt(width - 2) + 1; // avoids first and last index (Blocks surrounding the maze)
         startY = generator.nextInt(height - 2) + 1; // avoids first and last index (Blocks surrounding the maze)
-        
+
         generateMaze();
     }
 
