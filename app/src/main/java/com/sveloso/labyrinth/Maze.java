@@ -26,9 +26,6 @@ public class Maze {
     private int startX;
     private int startY;
 
-    private int endX;
-    private int endY;
-
     public Maze() {
         this.width = DEFAULT_WIDTH;
         this.height = DEFAULT_HEIGHT;
