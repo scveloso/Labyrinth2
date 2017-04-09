@@ -2,8 +2,10 @@ package com.sveloso.labyrinth;
 
 /**
  * Created by Veloso on 4/2/2017.
+ *
+ * The main tile that players walk in, used for generating the maze
  */
-public class Cell extends Tile{
+public class Cell extends Tile {
 
     private boolean north, west, south, east;
     private boolean visited;

@@ -7,14 +7,16 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ImageView;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-
+/**
+ * Created by Veloso on 4/3/2017.
+ *
+ * The main game activity
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ImageView imgNW;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnLeft;
     private Button btnRight;
     
-    private Map<Tile, ImageView> tileimgMap;
+    private Map<Tile, ImageView> tileImgMap;
 
     private Maze mazeObj;
     private Tile[][] maze;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        tileimgMap = new LinkedHashMap<>();
+        tileImgMap = new LinkedHashMap<>();
 
         imgNW = (ImageView) findViewById(R.id.imgNW);
         imgN = (ImageView) findViewById(R.id.imgN);
@@ -64,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 currY--;
-                updateControlsUI();
-                initializeTiles();
+                updateUI();
             }
         });
         btnDown = (Button) findViewById(R.id.btnDown);
@@ -73,8 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 currY++;
-                updateControlsUI();
-                initializeTiles();
+                updateUI();
             }
         });
         btnLeft = (Button) findViewById(R.id.btnLeft);
@@ -82,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 currX--;
-                updateControlsUI();
-                initializeTiles();
+                updateUI();
             }
         });
         btnRight = (Button) findViewById(R.id.btnRight);
@@ -91,21 +90,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 currX++;
-                updateControlsUI();
-                initializeTiles();
+                updateUI();
             }
         });
 
+        // Make a new maze for the current game
         mazeObj = new Maze();
         maze = mazeObj.getMaze();
-
+        // Initialize player's current coordinates
         currX = mazeObj.getStartX();
         currY = mazeObj.getStartY();
 
-        updateControlsUI();
-        initializeTiles();
+        // Update the UI for the first time
+        updateUI();
     }
 
+    private void updateUI() {
+        updateControlsUI();
+        updateTileImgMap();
+        updateImageViews();
+    }
+
+    /**
+     * Check the current cell player is standing on
+     * Restrict movement based on the cell's walls
+     *
+     */
     private void updateControlsUI() {
         Cell curr = (Cell) maze[currY][currX];
         if (curr.isNorth()) {
@@ -131,26 +141,38 @@ public class MainActivity extends AppCompatActivity {
         } else {
             btnLeft.setEnabled(false);
         }
+    }
+
+    /**
+     *
+     * Update structure that maps tiles and ImageViews together
+     * based on current player coordinates
+     *
+     */
+    private void updateTileImgMap () {
+        // Re-initialize the map
+        tileImgMap = new LinkedHashMap<>();
         
-        updateTileimgMap();
-    }
-    
-    private void updateTileimgMap () {
-        tileimgMap = new LinkedHashMap<>();
-        tileimgMap.put(maze[currY - 1][currX - 1], imgNW);
-        tileimgMap.put(maze[currY - 1][currX], imgN);
-        tileimgMap.put(maze[currY - 1][currX + 1], imgNE);
+        tileImgMap.put(maze[currY - 1][currX - 1], imgNW);
+        tileImgMap.put(maze[currY - 1][currX], imgN);
+        tileImgMap.put(maze[currY - 1][currX + 1], imgNE);
 
-        tileimgMap.put(maze[currY][currX - 1], imgW);
-        tileimgMap.put(maze[currY][currX + 1], imgE);
+        tileImgMap.put(maze[currY][currX - 1], imgW);
+        tileImgMap.put(maze[currY][currX + 1], imgE);
 
-        tileimgMap.put(maze[currY + 1][currX - 1], imgSW);
-        tileimgMap.put(maze[currY + 1][currX], imgS);
-        tileimgMap.put(maze[currY + 1][currX + 1], imgSE);
+        tileImgMap.put(maze[currY + 1][currX - 1], imgSW);
+        tileImgMap.put(maze[currY + 1][currX], imgS);
+        tileImgMap.put(maze[currY + 1][currX + 1], imgSE);
     }
 
-    private void initializeTiles() {
-        for (Map.Entry<Tile, ImageView> entry : tileimgMap.entrySet()) {
+    /**
+     *
+     * Iterate through the Tile-ImageView map
+     * Update the ImageView's drawable based on what tile it is mapped to
+     *
+     */
+    private void updateImageViews() {
+        for (Map.Entry<Tile, ImageView> entry : tileImgMap.entrySet()) {
             Tile tile = entry.getKey();
             ImageView img = entry.getValue();
 

@@ -2,6 +2,8 @@ package com.sveloso.labyrinth;
 
 /**
  * Created by Veloso on 4/3/2017.
+ *
+ * An impassable tile that acts as a boundary for the maze
  */
 public class Block extends Tile {
 

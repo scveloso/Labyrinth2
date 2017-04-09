@@ -2,6 +2,8 @@ package com.sveloso.labyrinth;
 
 /**
  * Created by Veloso on 4/3/2017.
+ *
+ * The parent maze object used to differentiate maze boundaries, paths and objects
  */
 public abstract class Tile {
 

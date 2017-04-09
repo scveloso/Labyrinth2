@@ -2,7 +2,6 @@ package com.sveloso.labyrinth;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -10,22 +9,47 @@ import java.util.Stack;
 
 /**
  * Created by Veloso on 4/2/2017.
+ *
+ * A 3D array of tiles, uses cells to procedurally generate mazes
  */
 public class Maze {
 
-    private static final int WIDTH = 10;
-    private static final int HEIGHT = 10;
+    private static final int DEFAULT_WIDTH = 10;
+    private static final int DEFAULT_HEIGHT = 10;
+
+    private int width;
+    private int height;
+
     Tile[][] maze;
 
     private Random generator;
     private int startX;
     private int startY;
 
+    private int endX;
+    private int endY;
+
     public Maze() {
-        maze = new Tile[WIDTH][HEIGHT];
+        this.width = DEFAULT_WIDTH;
+        this.height = DEFAULT_HEIGHT;
+
+        maze = new Tile[width][height];
         generator = new Random();
-        startX = generator.nextInt(WIDTH - 2) + 1; // avoids first and last index (Blocks surrounding the maze)
-        startY = generator.nextInt(HEIGHT - 2) + 1; // avoids first and last index (Blocks surrounding the maze)
+        startX = generator.nextInt(width - 2) + 1; // avoids first and last index (Blocks surrounding the maze)
+        startY = generator.nextInt(height - 2) + 1; // avoids first and last index (Blocks surrounding the maze)
+
+        generateMaze();
+    }
+    
+    public Maze(int width, int height) {
+        this.width = width;
+        this.height = height;
+
+        maze = new Tile[width][height];
+        generator = new Random();
+        startX = generator.nextInt(width - 2) + 1; // avoids first and last index (Blocks surrounding the maze)
+        startY = generator.nextInt(height - 2) + 1; // avoids first and last index (Blocks surrounding the maze)
+        
         generateMaze();
     }
 
@@ -42,18 +66,18 @@ public class Maze {
     }
 
     private void generateMaze() {
-        // Space for a maze as a large grid of cells, each starting with 4 walls
+        // Generate cells surrounded by blocks, a blank slate for the maze
         fillCells();
 
-        // A stack for visited nodes to facilitate backtracking
+        // A stack for visited cells to facilitate backtracking
         Stack<Cell> visited = new Stack<>();
 
-        // Starting from a random cell
+        // Starting from an initial cell
         Cell current = (Cell) maze[startY][startX];
         // Make the initial cell the current cell and mark it as visited
         current.setAsVisited();
 
-        int totalCells = (WIDTH - 2) * (HEIGHT - 2);
+        int totalCells = (width - 2) * (height - 2);
         int numVisited = 1;
 
         // While there are unvisited cells
@@ -68,18 +92,18 @@ public class Maze {
             // Check unvisited neighbors
             if (upY >= 0) /* if the cell above the current cell is a valid tile */ {
                 Tile c = maze[upY][current.getX()];
-                // if the valid cell is not visited, add it as an unvisited neighbor
+                // if the valid cell is not visited (or not a block), add it as an unvisited neighbor
                 if (!c.isVisited()) {
                     unvisitedNeighbors.put(0, (Cell) c);
                 }
             }
-            if (rightX < WIDTH) {
+            if (rightX < DEFAULT_WIDTH) {
                 Tile c = maze[current.getY()][rightX];
                 if (!c.isVisited()) {
                     unvisitedNeighbors.put(1, (Cell) c);
                 }
             }
-            if (downY < HEIGHT) {
+            if (downY < DEFAULT_HEIGHT) {
                 Tile c = maze[downY][current.getX()];
                 if (!c.isVisited()) {
                     unvisitedNeighbors.put(2, (Cell) c);
@@ -133,11 +157,12 @@ public class Maze {
     }
 
     private void fillCells() {
-        for (int h = 0; h < HEIGHT; h++) {
-            for (int w = 0; w < WIDTH; w++) {
-                if (h == 0 || w == 0 || h == (HEIGHT - 1) || w == (WIDTH - 1)) {
+        for (int h = 0; h < DEFAULT_HEIGHT; h++) {
+            for (int w = 0; w < DEFAULT_WIDTH; w++) {
+                // If maze index is outer border (0, height or width) then place a block (boundary) on it
+                if (h == 0 || w == 0 || h == (height - 1) || w == (width - 1)) {
                     maze[h][w] = new Block(w, h);
-                } else {
+                } else /* else place a Cell on it */ {
                     maze[h][w] = new Cell(w, h);
                 }
             }
