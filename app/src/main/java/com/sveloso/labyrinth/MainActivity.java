@@ -1,5 +1,6 @@
 package com.sveloso.labyrinth;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -12,12 +13,16 @@ import android.widget.ImageView;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
+
 /**
  * Created by Veloso on 4/3/2017.
  *
  * The main game activity
  */
 public class MainActivity extends AppCompatActivity {
+
+    public static final String EXTRA_DIFFICULTY = "com.sveloso.labyrinth.DIFFICULTY";
 
     private ImageView imgNW;
     private ImageView imgN;
@@ -43,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private int currX;
     private int currY;
 
+    private Random spawner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 currY--;
                 updateUI();
+
+                checkEnemy();
             }
         });
         btnDown = (Button) findViewById(R.id.btnDown);
@@ -75,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 currY++;
                 updateUI();
+
+                checkEnemy();
+
             }
         });
         btnLeft = (Button) findViewById(R.id.btnLeft);
@@ -83,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 currX--;
                 updateUI();
+
+                checkEnemy();
+
             }
         });
         btnRight = (Button) findViewById(R.id.btnRight);
@@ -91,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 currX++;
                 updateUI();
+
+                checkEnemy();
+
             }
         });
 
@@ -103,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Update the UI for the first time
         updateUI();
+
+        // Initialize spawner
+        spawner = new Random();
     }
 
     private void updateUI() {
@@ -185,32 +206,43 @@ public class MainActivity extends AppCompatActivity {
                 Drawable[] layers = new Drawable[4];
 
                 if (!cell.isNorth()) {
-                    layers[0] = r.getDrawable(R.mipmap.img_top);
+                    layers[0] = ContextCompat.getDrawable(this, R.mipmap.img_top);
                 } else {
-                    layers[0] = r.getDrawable(R.mipmap.img_open);
+                    layers[0] = ContextCompat.getDrawable(this, R.mipmap.img_open);
                 }
 
                 if (!cell.isEast()) {
-                    layers[1] = r.getDrawable(R.mipmap.img_right);
+                    layers[1] = ContextCompat.getDrawable(this, R.mipmap.img_right);
                 } else {
-                    layers[1] = r.getDrawable(R.mipmap.img_open);
+                    layers[1] = ContextCompat.getDrawable(this, R.mipmap.img_open);
                 }
 
                 if (!cell.isSouth()) {
-                    layers[2] = r.getDrawable(R.mipmap.img_bot);
+                    layers[2] = ContextCompat.getDrawable(this, R.mipmap.img_bot);
                 } else {
-                    layers[2] = r.getDrawable(R.mipmap.img_open);
+                    layers[2] = ContextCompat.getDrawable(this, R.mipmap.img_open);
                 }
 
                 if (!cell.isWest()) {
-                    layers[3] = r.getDrawable(R.mipmap.img_left);
+                    layers[3] = ContextCompat.getDrawable(this, R.mipmap.img_left);
                 } else {
-                    layers[3] = r.getDrawable(R.mipmap.img_open);
+                    layers[3] = ContextCompat.getDrawable(this, R.mipmap.img_open);
                 }
 
                 LayerDrawable layerDrawable = new LayerDrawable(layers);
                 img.setImageDrawable(layerDrawable);
             }
+        }
+    }
+
+    private void checkEnemy() {
+        int rand = spawner.nextInt(6);
+
+        if (rand == 0) {
+            Intent combatIntent = new Intent(this, CombatActivity.class);
+            int rand2 = spawner.nextInt(11);
+            combatIntent.putExtra(EXTRA_DIFFICULTY, rand2);
+            startActivity(combatIntent);
         }
     }
 }
