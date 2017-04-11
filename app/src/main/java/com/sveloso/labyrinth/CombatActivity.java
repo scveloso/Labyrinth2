@@ -2,6 +2,8 @@ package com.sveloso.labyrinth;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,11 +13,17 @@ import android.widget.TextView;
 
 public class CombatActivity extends Activity {
 
+    private static final String MOVE_ATTACK = "attack";
+    private static final String MOVE_BLOCK = "block";
+
     private ImageView imgPlayerHealth;
 
     private ImageView imgEnemyHealth;
     private ImageView imgEnemySprite;
     private TextView txtEnemyName;
+
+    private Button btnAttack;
+    private Button btnBlock;
 
     private Enemy currEnemy;
 
@@ -30,6 +38,21 @@ public class CombatActivity extends Activity {
 
         txtEnemyName = (TextView) findViewById(R.id.txtEnemyName);
 
+        btnAttack = (Button) findViewById(R.id.btnAttack);
+        btnAttack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handlePlayerTurn(MOVE_ATTACK);
+            }
+        });
+        btnBlock = (Button) findViewById(R.id.btnBlock);
+        btnBlock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handlePlayerTurn(MOVE_BLOCK);
+            }
+        });
+
         int difficulty = getIntent().getIntExtra(MainActivity.EXTRA_DIFFICULTY, -1);
 
         if (difficulty < 6) {
@@ -39,12 +62,24 @@ public class CombatActivity extends Activity {
         } else {
             currEnemy = new Enemy(this, 2);
         }
+        txtEnemyName.setText(currEnemy.getName());
 
         updateEnemyUI();
     }
 
     private void updateEnemyUI() {
-        txtEnemyName.setText(currEnemy.getName());
+        double percentHealth = currEnemy.getCurrHealth() / currEnemy.getHealth();
+        double newHealthW = imgEnemyHealth.getWidth() * percentHealth;
+        imgEnemyHealth.setMaxWidth((int) newHealthW);
+    }
 
+    private void handlePlayerTurn(String move) {
+        if (move.equals(MOVE_ATTACK)) {
+            currEnemy.setCurrHealth(currEnemy.getCurrHealth() - 20);
+            checkIfGameOver();
+
+        } else if (move.equals(MOVE_BLOCK)) {
+
+        }
     }
 }

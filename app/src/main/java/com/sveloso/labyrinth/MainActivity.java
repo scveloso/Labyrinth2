@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 updateUI();
 
                 checkEnemy();
-
             }
         });
         btnLeft = (Button) findViewById(R.id.btnLeft);
@@ -97,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 updateUI();
 
                 checkEnemy();
-
             }
         });
         btnRight = (Button) findViewById(R.id.btnRight);
@@ -108,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
                 updateUI();
 
                 checkEnemy();
-
             }
         });
 

@@ -15,6 +15,8 @@ public class Enemy {
     private int attack;
     private Drawable src;
 
+    private int currHealth;
+
     private int level;
 
     public Enemy (Context context, int level) {
@@ -24,6 +26,7 @@ public class Enemy {
             case 0:
                 name = "Honeycomb";
                 health = 40;
+                currHealth = health;
                 attack = 5;
                 src = ContextCompat.getDrawable(context, R.mipmap.img_enemy_easy);
 
@@ -31,6 +34,7 @@ public class Enemy {
             case 1:
                 name = "Jelly Bean";
                 health = 60;
+                currHealth = health;
                 attack = 10;
                 src = ContextCompat.getDrawable(context, R.mipmap.img_enemy_medium);
 
@@ -38,6 +42,7 @@ public class Enemy {
             case 2:
                 name = "KitKat";
                 health = 80;
+                currHealth = health;
                 attack = 20;
                 src = ContextCompat.getDrawable(context, R.mipmap.img_enemy_hard);
 
@@ -63,5 +68,13 @@ public class Enemy {
 
     public int getLevel() {
         return level;
+    }
+
+    public int getCurrHealth() {
+        return currHealth;
+    }
+
+    public void setCurrHealth(int currHealth) {
+        this.currHealth = currHealth;
     }
 }
