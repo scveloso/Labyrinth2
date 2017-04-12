@@ -7,14 +7,18 @@ import android.os.Parcelable;
  * Created by s.veloso on 4/11/2017.
  */
 
-public class Player implements Parcelable{
+public class Player {
+
+    public static final int PLAYER_HEALTH = 100;
+    public static final int PLAYER_BASE_ATTACK = 20;
 
     private int health;
+    private int attack;
     private int currHealth;
 
     public Player() {
-        health = 100;
         currHealth = health;
+        attack = PLAYER_BASE_ATTACK;
     }
 
     public int getCurrHealth() {
@@ -29,13 +33,7 @@ public class Player implements Parcelable{
         return health;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
+    public int getAttack() {
+        return attack;
     }
 }

@@ -10,6 +10,10 @@ import android.support.v4.content.ContextCompat;
 
 public class Enemy {
 
+    private static final int LEVEL_0_ENEMY_HEALTH = 40;
+    private static final int LEVEL_1_ENEMY_HEALTH = 60;
+    private static final int LEVEL_2_ENEMY_HEALTH = 80;
+
     private String name;
     private int health;
     private int attack;
@@ -25,24 +29,21 @@ public class Enemy {
         switch (level) {
             case 0:
                 name = "Honeycomb";
-                health = 40;
-                currHealth = health;
+                currHealth = LEVEL_0_ENEMY_HEALTH;
                 attack = 5;
                 src = ContextCompat.getDrawable(context, R.mipmap.img_enemy_easy);
 
                 break;
             case 1:
                 name = "Jelly Bean";
-                health = 60;
-                currHealth = health;
+                currHealth = LEVEL_1_ENEMY_HEALTH;
                 attack = 10;
                 src = ContextCompat.getDrawable(context, R.mipmap.img_enemy_medium);
 
                 break;
             case 2:
                 name = "KitKat";
-                health = 80;
-                currHealth = health;
+                currHealth = LEVEL_2_ENEMY_HEALTH;
                 attack = 20;
                 src = ContextCompat.getDrawable(context, R.mipmap.img_enemy_hard);
 
@@ -50,12 +51,21 @@ public class Enemy {
         }
     }
 
-    public String getName() {
-        return name;
+    public int getHealth() {
+        switch (level) {
+            case 0:
+                return LEVEL_0_ENEMY_HEALTH;
+            case 1:
+                return LEVEL_1_ENEMY_HEALTH;
+            case 2:
+                return LEVEL_2_ENEMY_HEALTH;
+            default:
+                return -1;
+        }
     }
 
-    public int getHealth() {
-        return health;
+    public String getName() {
+        return name;
     }
 
     public int getAttack() {

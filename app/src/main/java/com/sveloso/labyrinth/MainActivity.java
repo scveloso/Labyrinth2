@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,8 +23,12 @@ import java.util.Random;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private static final int COMBAT_REQUEST = 0;
+    public static final int COMBAT_RESULT_WIN = 1;
+    public static final int COMBAT_RESULT_LOSE = 2;
+
     public static final String EXTRA_DIFFICULTY = "com.sveloso.labyrinth.DIFFICULTY";
-    public static final String BUNDLE_CURR_PLAYER = "com.sveloso.labyrinth.CURR_PLAYER";
+    public static final String EXTRA_PLAYER_CURR_HEALTH = "com.sveloso.labyrinth.PLAYER_CURR_HEALTH";
 
     private ImageView imgNW;
     private ImageView imgN;
@@ -51,6 +56,22 @@ public class MainActivity extends AppCompatActivity {
     private int currY;
 
     private Random spawner;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == COMBAT_REQUEST) {
+            if (resultCode == COMBAT_RESULT_WIN) {
+                // Keep going
+            } else {
+                btnUp.setEnabled(false);
+                btnDown.setEnabled(false);
+                btnLeft.setEnabled(false);
+                btnRight.setEnabled(false);
+                Toast.makeText(this, "Game over.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,14 +261,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (rand == 0) {
             Intent combatIntent = new Intent(this, CombatActivity.class);
-            int rand2 = spawner.nextInt(11);
-            combatIntent.putExtra(EXTRA_DIFFICULTY, rand2);
-            Bundle playerBundle = new Bundle();
-            playerBundle.putParcelable(BUNDLE_CURR_PLAYER, currPlayer);
-            combatIntent.putExtras(playerBundle);
+            int difficulty = spawner.nextInt(11);
+            combatIntent.putExtra(EXTRA_DIFFICULTY, difficulty);
 
+            int playerCurrHealth = currPlayer.getCurrHealth();
+            combatIntent.putExtra(EXTRA_PLAYER_CURR_HEALTH, playerCurrHealth);
 
-            startActivity(combatIntent);
+            startActivityForResult(combatIntent, COMBAT_REQUEST);
         }
     }
 }
