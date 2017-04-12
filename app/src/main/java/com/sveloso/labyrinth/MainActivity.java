@@ -23,6 +23,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_DIFFICULTY = "com.sveloso.labyrinth.DIFFICULTY";
+    public static final String BUNDLE_CURR_PLAYER = "com.sveloso.labyrinth.CURR_PLAYER";
 
     private ImageView imgNW;
     private ImageView imgN;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Maze mazeObj;
     private Tile[][] maze;
+    private Player currPlayer;
 
     private int currX;
     private int currY;
@@ -113,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         mazeObj = new Maze();
         maze = mazeObj.getMaze();
         // Initialize player's current coordinates
+        currPlayer = new Player();
         currX = mazeObj.getStartX();
         currY = mazeObj.getStartY();
 
@@ -239,6 +242,11 @@ public class MainActivity extends AppCompatActivity {
             Intent combatIntent = new Intent(this, CombatActivity.class);
             int rand2 = spawner.nextInt(11);
             combatIntent.putExtra(EXTRA_DIFFICULTY, rand2);
+            Bundle playerBundle = new Bundle();
+            playerBundle.putParcelable(BUNDLE_CURR_PLAYER, currPlayer);
+            combatIntent.putExtras(playerBundle);
+
+
             startActivity(combatIntent);
         }
     }

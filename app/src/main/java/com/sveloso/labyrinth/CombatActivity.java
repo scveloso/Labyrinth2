@@ -27,6 +27,8 @@ public class CombatActivity extends Activity {
 
     private Enemy currEnemy;
 
+    private int playerHealth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +37,7 @@ public class CombatActivity extends Activity {
         imgPlayerHealth = (ImageView) findViewById(R.id.imgPlayerHealth);
         imgEnemyHealth = (ImageView) findViewById(R.id.imgEnemyHealth);
         imgEnemySprite = (ImageView) findViewById(R.id.imgEnemySprite);
-
         txtEnemyName = (TextView) findViewById(R.id.txtEnemyName);
-
         btnAttack = (Button) findViewById(R.id.btnAttack);
         btnAttack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +54,7 @@ public class CombatActivity extends Activity {
         });
 
         int difficulty = getIntent().getIntExtra(MainActivity.EXTRA_DIFFICULTY, -1);
+        playerHealth = getIntent().getIntExtra(MainActivity.EXTRA_PLAYER_HEALTH, -1);
 
         if (difficulty < 6) {
             currEnemy = new Enemy(this, 0);
@@ -65,10 +66,17 @@ public class CombatActivity extends Activity {
         txtEnemyName.setText(currEnemy.getName());
 
         updateEnemyUI();
+        updatePlayerUI();
     }
 
     private void updateEnemyUI() {
         double percentHealth = currEnemy.getCurrHealth() / currEnemy.getHealth();
+        double newHealthW = imgEnemyHealth.getWidth() * percentHealth;
+        imgEnemyHealth.setMaxWidth((int) newHealthW);
+    }
+
+    private void updatePlayerUI() {
+        double percentHealth = currEnemy.getCurrHealth() / 100;
         double newHealthW = imgEnemyHealth.getWidth() * percentHealth;
         imgEnemyHealth.setMaxWidth((int) newHealthW);
     }
@@ -80,6 +88,12 @@ public class CombatActivity extends Activity {
 
         } else if (move.equals(MOVE_BLOCK)) {
 
+        }
+    }
+
+    private void checkIfGameOver() {
+        if (currEnemy.getCurrHealth() <= 0) {
+            finish();
         }
     }
 }
