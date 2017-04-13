@@ -1,13 +1,19 @@
 package com.sveloso.labyrinth;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.text.method.ScrollingMovementMethod;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by s.veloso on 4/10/2017.
@@ -17,9 +23,9 @@ public class CombatActivity extends Activity {
 
     private static final String MOVE_ATTACK = "attack";
     private static final String MOVE_BLOCK = "block";
-    private static final int MAX_HEALTH_WIDTH = 200;
 
     private ImageView imgPlayerHealth;
+    private ImageView imgPlayerSprite;
     private ImageView imgEnemyHealth;
     private ImageView imgEnemySprite;
     private TextView txtEnemyName;
@@ -27,6 +33,8 @@ public class CombatActivity extends Activity {
 
     private Button btnAttack;
     private Button btnBlock;
+
+    private static final int MAX_IMG_HEALTH_WIDTH = 200; // 200dp
 
     private Enemy currEnemy;
 
@@ -38,6 +46,7 @@ public class CombatActivity extends Activity {
         setContentView(R.layout.activity_combat);
 
         imgPlayerHealth = (ImageView) findViewById(R.id.imgPlayerHealth);
+        imgPlayerSprite = (ImageView) findViewById(R.id.imgPlayerSprite);
         imgEnemyHealth = (ImageView) findViewById(R.id.imgEnemyHealth);
         imgEnemySprite = (ImageView) findViewById(R.id.imgEnemySprite);
         txtEnemyName = (TextView) findViewById(R.id.txtEnemyName);
@@ -58,17 +67,17 @@ public class CombatActivity extends Activity {
         txtCombatLog = (TextView) findViewById(R.id.txtCombatLog);
         txtCombatLog.setMovementMethod(new ScrollingMovementMethod());
 
-
         int difficulty = getIntent().getIntExtra(MainActivity.EXTRA_DIFFICULTY, -1);
         playerHealth = getIntent().getIntExtra(MainActivity.EXTRA_PLAYER_CURR_HEALTH, -1);
 
-        if (difficulty < 6) {
+        imgPlayerSprite.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_launcher));
+        if (difficulty < 5) /* 5 out of 10 chance for easy */ {
             currEnemy = new Enemy(this, 0);
             imgEnemySprite.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_enemy_easy));
-        } else if (difficulty < 10) {
+        } else if (difficulty < 8) /* 3 out of 10 chance for medium */ {
             currEnemy = new Enemy(this, 1);
             imgEnemySprite.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_enemy_medium));
-        } else {
+        } else /* 2 out of 10 chance for hard */ {
             currEnemy = new Enemy(this, 2);
             imgEnemySprite.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.img_enemy_hard));
         }
@@ -76,18 +85,28 @@ public class CombatActivity extends Activity {
 
         updateEnemyUI();
         updatePlayerUI();
+
+        log("Combat log started.");
     }
 
     private void updateEnemyUI() {
-        double percentHealth = currEnemy.getCurrHealth() / currEnemy.getHealth();
-        double newHealthW = MAX_HEALTH_WIDTH * percentHealth;
-        imgEnemyHealth.setMaxWidth((int) newHealthW);
+        double percentHealth = (double) currEnemy.getCurrHealth() / currEnemy.getHealth();
+        double newHealthW = MAX_IMG_HEALTH_WIDTH * percentHealth;
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (int) newHealthW, r.getDisplayMetrics());
+
+        imgEnemyHealth.getLayoutParams().width = (int) px;
+        imgEnemyHealth.requestLayout();
     }
 
     private void updatePlayerUI() {
-        double percentHealth = playerHealth / Player.PLAYER_HEALTH;
-        double newHealthW = MAX_HEALTH_WIDTH * percentHealth;
-        imgPlayerHealth.setMaxWidth((int) newHealthW);
+        double percentHealth = (double) playerHealth / Player.PLAYER_HEALTH;
+        double newHealthW = MAX_IMG_HEALTH_WIDTH * percentHealth;
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (int) newHealthW, r.getDisplayMetrics());
+
+        imgPlayerHealth.getLayoutParams().width = (int) px;
+        imgPlayerHealth.requestLayout();
     }
 
     private void handlePlayerTurn(String move) {
@@ -109,8 +128,9 @@ public class CombatActivity extends Activity {
     private void checkIfEnemyDead() {
         if (currEnemy.getCurrHealth() <= 0) {
             // end activity with success result
-
-            setResult(MainActivity.COMBAT_RESULT_WIN);
+            Intent data = new Intent();
+            data.putExtra(MainActivity.EXTRA_PLAYER_CURR_HEALTH, playerHealth);
+            setResult(MainActivity.COMBAT_RESULT_WIN, data);
             finish();
         }
     }

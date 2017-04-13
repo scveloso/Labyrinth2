@@ -12,12 +12,11 @@ public class Player {
     public static final int PLAYER_HEALTH = 100;
     public static final int PLAYER_BASE_ATTACK = 20;
 
-    private int health;
     private int attack;
     private int currHealth;
 
     public Player() {
-        currHealth = health;
+        currHealth = PLAYER_HEALTH;
         attack = PLAYER_BASE_ATTACK;
     }
 
@@ -30,7 +29,7 @@ public class Player {
     }
 
     public int getHealth() {
-        return health;
+        return PLAYER_HEALTH;
     }
 
     public int getAttack() {

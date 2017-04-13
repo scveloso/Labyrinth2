@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // Check which request we're responding to
         if (requestCode == COMBAT_REQUEST) {
             if (resultCode == COMBAT_RESULT_WIN) {
-                // Keep going
+                currPlayer.setCurrHealth(data.getIntExtra(EXTRA_PLAYER_CURR_HEALTH, -1));
             } else {
                 btnUp.setEnabled(false);
                 btnDown.setEnabled(false);
@@ -257,11 +257,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkEnemy() {
+        // 1 / 5 Chance to initiate combat
         int rand = spawner.nextInt(6);
 
+        // If combat engaged
         if (rand == 0) {
+            // Create combat intent
             Intent combatIntent = new Intent(this, CombatActivity.class);
-            int difficulty = spawner.nextInt(11);
+            // Determine the difficulty
+            int difficulty = spawner.nextInt(10);
             combatIntent.putExtra(EXTRA_DIFFICULTY, difficulty);
 
             int playerCurrHealth = currPlayer.getCurrHealth();
