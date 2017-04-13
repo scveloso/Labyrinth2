@@ -15,7 +15,6 @@ public class Enemy {
     private static final int LEVEL_2_ENEMY_HEALTH = 80;
 
     private String name;
-    private int health;
     private int attack;
     private Drawable src;
 
