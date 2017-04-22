@@ -15,9 +15,12 @@ public class Player {
     private int attack;
     private int currHealth;
 
+    private int charge;
+
     public Player() {
         currHealth = PLAYER_HEALTH;
         attack = PLAYER_BASE_ATTACK;
+        charge = 0;
     }
 
     public int getCurrHealth() {
@@ -34,5 +37,9 @@ public class Player {
 
     public int getAttack() {
         return attack;
+    }
+
+    public int getCharge() {
+        return charge;
     }
 }

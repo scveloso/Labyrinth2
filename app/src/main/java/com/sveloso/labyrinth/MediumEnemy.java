@@ -34,53 +34,78 @@ public class MediumEnemy implements Enemy {
         moveGenerator = new Random();
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public int getAttack() {
         return attack;
     }
 
+    @Override
     public Drawable getSrc() {
         return src;
     }
 
+    @Override
     public int getLevel() {
         return level;
     }
 
+    @Override
     public int getMaxHealth() {
         return MAX_HEALTH;
     }
 
+    @Override
     public int getCurrHealth() {
         return currHealth;
     }
 
+    @Override
     public int getCharge() {
         return charge;
     }
 
+    @Override
     public void setCurrHealth(int currHealth) {
         this.currHealth = currHealth;
     }
 
-    public Move getNextMove() {
-        int move = moveGenerator.nextInt(3);
-        // 50-50 chance to charge or attack
-        if (move == 0) {
+    @Override
+    public void setCharge(int charge) {
+        this.charge = charge;
+    }
+
+    @Override
+    public Move getNextMove(int playerCharge) {
+        if (playerCharge == 0) {
             return Move.CHARGE;
-        } else if (move == 1) /* Random attack based on number of charges */ {
-            int attack = moveGenerator.nextInt(charge + 1);
-            switch (attack) {
-                case 0:
-                    return Move.CHARGE_0_ATTACK;
+        }
+
+        int move = moveGenerator.nextInt(2);
+
+        if (move == 0 || charge == 0) /* block randomly based on player charge, or if have no charges */ {
+            switch (playerCharge) {
                 case 1:
+                    return Move.CHARGE_1_BLOCK;
+                case 2:
+                    return Move.CHARGE_2_BLOCK;
+                case 3:
+                    return Move.CHARGE_3_BLOCK;
+            }
+        } else /* attack randomly based on charge */ {
+            switch (charge) {
+                case 1:
+                    charge--;
                     return Move.CHARGE_1_ATTACK;
                 case 2:
+                    charge -= 2;
                     return Move.CHARGE_2_ATTACK;
                 case 3:
+                    charge -= 3;
                     return Move.CHARGE_3_ATTACK;
             }
         }

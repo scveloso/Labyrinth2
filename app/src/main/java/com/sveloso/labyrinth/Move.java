@@ -5,13 +5,28 @@ package com.sveloso.labyrinth;
  */
 
 public enum Move {
-    LOAF,
-    CHARGE_0_ATTACK,
-    CHARGE_1_ATTACK,
-    CHARGE_2_ATTACK,
-    CHARGE_3_ATTACK,
-    CHARGE_1_BLOCK,
-    CHARGE_2_BLOCK,
-    CHARGE_3_BLOCK,
-    CHARGE;
+    LOAF (0, "loaf"),
+    CHARGE_1_ATTACK (1, "attack"),
+    CHARGE_2_ATTACK (2, "attack"),
+    CHARGE_3_ATTACK (3, "attack"),
+    CHARGE_1_BLOCK (1, "block"),
+    CHARGE_2_BLOCK (2, "block"),
+    CHARGE_3_BLOCK (3, "block"),
+    CHARGE (0, "charge");
+
+    private final int power;
+    private final String moveType;
+
+    private Move (int chargeCost, String moveType) {
+        this.power = chargeCost;
+        this.moveType = moveType;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public String getMoveType() {
+        return moveType;
+    }
 }

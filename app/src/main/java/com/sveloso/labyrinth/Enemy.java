@@ -22,8 +22,9 @@ public interface Enemy {
 
     public void setCurrHealth(int currHealth);
 
-    public Move getNextMove();
+    public Move getNextMove(int playerCharge);
 
     public int getCharge();
 
+    public void setCharge(int charge);
 }

@@ -28,14 +28,22 @@ public class CombatActivity extends Activity {
     private TextView txtEnemyName;
     private TextView txtCombatLog;
 
-    private Button btnAttack;
-    private Button btnBlock;
+    private Button btnCharge;
+
+    private Button btnAttack1;
+    private Button btnAttack2;
+    private Button btnAttack3;
+
+    private Button btnBlock1;
+    private Button btnBlock2;
+    private Button btnBlock3;
 
     private static final int MAX_IMG_HEALTH_WIDTH = 200; // 200dp
 
     private Enemy currEnemy;
 
     private int playerHealth;
+    private int playerCharge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,25 +55,70 @@ public class CombatActivity extends Activity {
         imgEnemyHealth = (ImageView) findViewById(R.id.imgEnemyHealth);
         imgEnemySprite = (ImageView) findViewById(R.id.imgEnemySprite);
         txtEnemyName = (TextView) findViewById(R.id.txtEnemyName);
-        btnAttack = (Button) findViewById(R.id.btnAttack);
-        btnAttack.setOnClickListener(new View.OnClickListener() {
+
+
+        btnAttack1 = (Button) findViewById(R.id.btnAttack1);
+        btnAttack1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                handlePlayerTurn(MOVE_ATTACK);
+            public void onClick(View view) {
+                handlePlayerTurn(Move.CHARGE_1_ATTACK);
             }
         });
-        btnBlock = (Button) findViewById(R.id.btnBlock);
-        btnBlock.setOnClickListener(new View.OnClickListener() {
+
+        btnAttack2 = (Button) findViewById(R.id.btnAttack2);
+        btnAttack2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                handlePlayerTurn(MOVE_BLOCK);
+            public void onClick(View view) {
+                handlePlayerTurn(Move.CHARGE_2_ATTACK);
             }
         });
+
+        btnAttack3 = (Button) findViewById(R.id.btnAttack3);
+        btnAttack3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handlePlayerTurn(Move.CHARGE_3_ATTACK);
+            }
+        });
+
+        btnBlock1 = (Button) findViewById(R.id.btnBlock1);
+        btnBlock1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handlePlayerTurn(Move.CHARGE_1_BLOCK);
+            }
+        });
+
+        btnBlock2 = (Button) findViewById(R.id.btnBlock2);
+        btnBlock2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handlePlayerTurn(Move.CHARGE_2_BLOCK);
+            }
+        });
+
+        btnBlock3 = (Button) findViewById(R.id.btnBlock3);
+        btnBlock3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handlePlayerTurn(Move.CHARGE_3_BLOCK);
+            }
+        });
+
+        btnCharge = (Button) findViewById(R.id.btnCharge);
+        btnCharge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                handlePlayerTurn(Move.CHARGE);
+            }
+        });
+
         txtCombatLog = (TextView) findViewById(R.id.txtCombatLog);
         txtCombatLog.setMovementMethod(new ScrollingMovementMethod());
 
         int difficulty = getIntent().getIntExtra(MainActivity.EXTRA_DIFFICULTY, -1);
         playerHealth = getIntent().getIntExtra(MainActivity.EXTRA_PLAYER_CURR_HEALTH, -1);
+        playerCharge = getIntent().getIntExtra(MainActivity.EXTRA_PLAYER_CHARGE, -1);
 
         imgPlayerSprite.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.ic_launcher));
         if (difficulty < 5) /* 5 out of 10 chance for easy */ {
@@ -116,31 +169,73 @@ public class CombatActivity extends Activity {
         imgPlayerHealth.requestLayout();
     }
 
-    private void handlePlayerTurn(String move) {
-        if (move.equals(MOVE_ATTACK)) /* If the player attacks */ {
-            // Inflict damage to the enemy
-            currEnemy.setCurrHealth(currEnemy.getCurrHealth() - Player.PLAYER_BASE_ATTACK);
+    private void handlePlayerTurn(Move playerMove) {
+        Move enemyMove = currEnemy.getNextMove(playerCharge);
 
-            // Log the player action
-            log("Dealt " + Player.PLAYER_BASE_ATTACK + " damage to the enemy " + currEnemy.getName() + ".");
-            // Check if enemy died from attack
-            checkIfEnemyDead();
-            // If enemy not dead, continue by updating the UI
-            updateEnemyUI();
+        if (playerMove.getMoveType().equals("attack")) {
 
-            // Inflict damage to the player
-            playerHealth -= currEnemy.getAttack();
-            // Log the enemy action
-            log("Took " + currEnemy.getAttack() + " damage from the enemy " + currEnemy.getName() + ".");
-            // Check if player died from attack
-            checkIfGameOver();
-            // If player didn't die, continue by updating the UI
-            updatePlayerUI();
-        } else if (move.equals(MOVE_BLOCK)) {
-            // Blocked enemy attack, no damage inflicted on both sides
-            // Just log the turn
-            log("Blocked " + currEnemy.getAttack() + " damage from the enemy " + currEnemy.getName() + ".");
+            playerCharge -= playerMove.getPower();
+            
+            if (enemyMove.getMoveType().equals("block")) {
+                if (playerMove.getPower() > enemyMove.getPower()) {
+                    inflictDamageToEnemy();
+                } else {
+                    log(currEnemy.getName() + "successfully blocked the player's attack.");
+                }
+            } else if (enemyMove.getMoveType().equals("attack")) {
+                if (playerMove.getPower() > enemyMove.getPower()) {
+                    inflictDamageToEnemy();
+                } else if (playerMove.getPower() < enemyMove.getPower()) {
+                    inflictDamageToPlayer();
+                } else {
+                    log("Both attacks matched each other, vanishing into thin air.");
+                }
+            } else {
+                inflictDamageToEnemy();
+            }
+        } else if (playerMove.getMoveType().equals("block")) {
+            if (enemyMove.getMoveType().equals("block")) {
+                log("Both parties blocked, nothing happened!");
+            } else if (enemyMove.getMoveType().equals("attack")) {
+                if (enemyMove.getPower() > playerMove.getPower()) {
+                    inflictDamageToPlayer();
+                }  else {
+                    log("Player successfully blocked the enemy " + currEnemy.getName() + " attack.");
+                }
+            } else {
+                log("Player blocked, but the enemy was just charging!");
+            }
+        } else {
+            if (enemyMove.getMoveType().equals("attack")) {
+                log("Enemy " + currEnemy.getName() + " attacked the player while charging!");
+                inflictDamageToPlayer();
+            } else {
+                log("Both parties charged.");
+            }
         }
+    }
+
+    private void inflictDamageToEnemy() {
+        // Inflict damage to the enemy
+        currEnemy.setCurrHealth(currEnemy.getCurrHealth() - Player.PLAYER_BASE_ATTACK);
+
+        // Log the player action
+        log("Dealt " + Player.PLAYER_BASE_ATTACK + " damage to the enemy " + currEnemy.getName() + ".");
+        // Check if enemy died from attack
+        checkIfEnemyDead();
+        // If enemy not dead, continue by updating the UI
+        updateEnemyUI();
+    }
+    
+    private void inflictDamageToPlayer() {
+        // Inflict damage to the player
+        playerHealth -= currEnemy.getAttack();
+        // Log the enemy action
+        log("Took " + currEnemy.getAttack() + " damage from the enemy " + currEnemy.getName() + ".");
+        // Check if player died from attack
+        checkIfGameOver();
+        // If player didn't die, continue by updating the UI
+        updatePlayerUI();
     }
 
     private void checkIfEnemyDead() {

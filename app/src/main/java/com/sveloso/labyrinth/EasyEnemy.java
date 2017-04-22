@@ -34,54 +34,81 @@ public class EasyEnemy implements Enemy {
         moveGenerator = new Random();
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public int getAttack() {
         return attack;
     }
 
+    @Override
     public Drawable getSrc() {
         return src;
     }
 
+    @Override
     public int getLevel() {
         return level;
     }
 
+    @Override
     public int getMaxHealth() {
         return MAX_HEALTH;
     }
 
+    @Override
     public int getCurrHealth() {
         return currHealth;
     }
 
+    @Override
     public void setCurrHealth(int currHealth) {
         this.currHealth = currHealth;
     }
 
+    @Override
     public int getCharge() {
         return charge;
     }
 
-    public Move getNextMove() {
+    @Override
+    public void setCharge(int charge) {
+        this.charge = charge;
+    }
+
+    @Override
+    public Move getNextMove(int playerCharge) {
         int move = moveGenerator.nextInt(3);
-        // 50-50 chance to charge or attack
         if (move == 0) {
             return Move.CHARGE;
-        } else /* Random attack based on number of charges */ {
-            int attack = moveGenerator.nextInt(charge + 1);
-            switch (attack) {
+        } else if (move == 1) {
+            switch (charge) {
                 case 0:
-                    return Move.CHARGE_0_ATTACK;
+                    charge++;
+                    return Move.CHARGE;
                 case 1:
+                    charge--;
                     return Move.CHARGE_1_ATTACK;
                 case 2:
+                    charge -= 2;
                     return Move.CHARGE_2_ATTACK;
                 case 3:
+                    charge -= 3;
                     return Move.CHARGE_3_ATTACK;
+            }
+        } else {
+            switch (playerCharge) {
+                case 0:
+                    return Move.CHARGE;
+                case 1:
+                    return Move.CHARGE_1_BLOCK;
+                case 2:
+                    return Move.CHARGE_2_BLOCK;
+                case 3:
+                    return Move.CHARGE_3_BLOCK;
             }
         }
         return Move.LOAF;

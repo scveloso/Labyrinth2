@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_DIFFICULTY = "com.sveloso.labyrinth.DIFFICULTY";
     public static final String EXTRA_PLAYER_CURR_HEALTH = "com.sveloso.labyrinth.PLAYER_CURR_HEALTH";
+    public static final String EXTRA_PLAYER_CHARGE = "com.sveloso.labyrinth.PLAYER_CHARGE";
 
     private ImageView imgNW;
     private ImageView imgN;
@@ -270,6 +271,9 @@ public class MainActivity extends AppCompatActivity {
 
             int playerCurrHealth = currPlayer.getCurrHealth();
             combatIntent.putExtra(EXTRA_PLAYER_CURR_HEALTH, playerCurrHealth);
+
+            int playerCharge = currPlayer.getCharge();
+            combatIntent.putExtra(EXTRA_PLAYER_CHARGE, playerCharge);
 
             startActivityForResult(combatIntent, COMBAT_REQUEST);
         }

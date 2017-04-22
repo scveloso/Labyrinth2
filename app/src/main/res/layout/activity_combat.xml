@@ -104,26 +104,79 @@
         android:layout_height="150dp">
 
         <Button
-            android:id="@+id/btnBlock"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/btnAttack"
-            android:layout_marginEnd="50dp"
-            android:layout_marginRight="50dp"
-            android:text="Block" />
-
-        <Button
-            android:id="@+id/btnAttack"
-            android:layout_width="100dp"
+            android:id="@+id/btnAttack1"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="57dp"
-            android:layout_marginStart="57dp"
-            android:text="Attack" />
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:text="Bang (1)" />
+
+        <Button
+            android:id="@+id/btnAttack2"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/btnAttack1"
+            android:layout_alignStart="@+id/btnAttack1"
+            android:layout_below="@+id/btnAttack1"
+            android:text="Double Bang (2)"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnAttack3"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@+id/btnAttack2"
+            android:layout_alignStart="@+id/btnAttack2"
+            android:layout_below="@+id/btnAttack2"
+            android:text="Hula-hula (3)" />
+
+        <Button
+            android:id="@+id/btnBlock1"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/btnAttack1"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp"
+            android:text="Absorb" />
+
+        <Button
+            android:id="@+id/btnBlock2"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/btnBlock1"
+            android:layout_alignLeft="@id/btnBlock1"
+            android:layout_alignRight="@+id/btnBlock1"
+            android:layout_alignStart="@id/btnBlock1"
+            android:layout_below="@id/btnBlock1"
+            android:text="Shield" />
+
+        <Button
+            android:id="@+id/btnBlock3"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/btnBlock2"
+            android:layout_alignLeft="@id/btnBlock2"
+            android:layout_alignRight="@+id/btnBlock2"
+            android:layout_alignStart="@id/btnBlock2"
+            android:layout_below="@id/btnBlock2"
+            android:text="Sidestep" />
+
+        <Button
+            android:id="@+id/btnCharge"
+            android:text="Charge"
+            android:layout_toRightOf="@id/btnAttack2"
+            android:layout_toLeftOf="@id/btnBlock2"
+            android:layout_below="@id/btnAttack1"
+            android:textSize="12sp"
+            android:layout_width="100dp"
+            android:layout_height="40dp" />
     </RelativeLayout>
 
     <TextView
