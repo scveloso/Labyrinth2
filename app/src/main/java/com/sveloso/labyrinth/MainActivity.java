@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgNE;
 
     private ImageView imgW;
+    private ImageView imgC;
     private ImageView imgE;
 
     private ImageView imgSW;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         imgNE = (ImageView) findViewById(R.id.imgNE);
 
         imgW = (ImageView) findViewById(R.id.imgW);
+        imgC = (ImageView) findViewById(R.id.imgC);
         imgE = (ImageView) findViewById(R.id.imgE);
 
         imgSW = (ImageView) findViewById(R.id.imgSW);
@@ -201,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
         tileImgMap.put(maze[currY - 1][currX + 1], imgNE);
 
         tileImgMap.put(maze[currY][currX - 1], imgW);
+        tileImgMap.put(maze[currY][currX], imgC);
         tileImgMap.put(maze[currY][currX + 1], imgE);
 
         tileImgMap.put(maze[currY + 1][currX - 1], imgSW);
@@ -225,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                 Cell cell = (Cell) tile;
 
                 Resources r = getResources();
-                Drawable[] layers = new Drawable[4];
+                Drawable[] layers = new Drawable[5];
 
                 if (!cell.isNorth()) {
                     layers[0] = ContextCompat.getDrawable(this, R.mipmap.img_top);
@@ -249,6 +252,12 @@ public class MainActivity extends AppCompatActivity {
                     layers[3] = ContextCompat.getDrawable(this, R.mipmap.img_left);
                 } else {
                     layers[3] = ContextCompat.getDrawable(this, R.mipmap.img_open);
+                }
+
+                if (tile.getX() == currX && tile.getY() == currY) {
+                    layers[4] = ContextCompat.getDrawable(this, R.mipmap.player_front);
+                } else {
+                    layers[4] = ContextCompat.getDrawable(this, R.mipmap.img_open);
                 }
 
                 LayerDrawable layerDrawable = new LayerDrawable(layers);

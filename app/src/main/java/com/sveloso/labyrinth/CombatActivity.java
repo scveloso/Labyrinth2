@@ -135,6 +135,7 @@ public class CombatActivity extends Activity {
 
         updateEnemyUI();
         updatePlayerUI();
+        updatePlayerAttacks();
 
         log("Combat log started.");
     }
@@ -169,18 +170,39 @@ public class CombatActivity extends Activity {
         imgPlayerHealth.requestLayout();
     }
 
-    private void handlePlayerTurn(Move playerMove) {
-        Move enemyMove = currEnemy.getNextMove(playerCharge);
+    private void updatePlayerAttacks() {
+        btnAttack1.setEnabled(true);
+        btnAttack2.setEnabled(true);
+        btnAttack3.setEnabled(true);
 
-        if (playerMove.getMoveType().equals("attack")) {
+
+        if (playerCharge < 3) {
+            btnAttack3.setEnabled(false);
+
+            if (playerCharge < 2) {
+                btnAttack2.setEnabled(false);
+
+                if (playerCharge < 1) {
+                    btnAttack1.setEnabled(false);
+                }
+            }
+        }
+    }
+
+    private void handlePlayerTurn (Move playerMove) {
+        Move enemyMove = currEnemy.getNextMove(playerCharge);
+        log("Player used " + playerMove.getName());
+        log("Enemy used " + enemyMove.getName());
+
+        if (playerMove.getMoveType().equals("attack")) /* player uses attack */ {
 
             playerCharge -= playerMove.getPower();
             
             if (enemyMove.getMoveType().equals("block")) {
-                if (playerMove.getPower() > enemyMove.getPower()) {
+                if (playerMove.getPower() != enemyMove.getPower()) {
                     inflictDamageToEnemy();
                 } else {
-                    log(currEnemy.getName() + "successfully blocked the player's attack.");
+                    log(currEnemy.getName() + " successfully blocked the player's attack.");
                 }
             } else if (enemyMove.getMoveType().equals("attack")) {
                 if (playerMove.getPower() > enemyMove.getPower()) {
@@ -193,11 +215,11 @@ public class CombatActivity extends Activity {
             } else {
                 inflictDamageToEnemy();
             }
-        } else if (playerMove.getMoveType().equals("block")) {
+        } else if (playerMove.getMoveType().equals("block")) /* player uses block */ {
             if (enemyMove.getMoveType().equals("block")) {
                 log("Both parties blocked, nothing happened!");
             } else if (enemyMove.getMoveType().equals("attack")) {
-                if (enemyMove.getPower() > playerMove.getPower()) {
+                if (enemyMove.getPower() != playerMove.getPower()) {
                     inflictDamageToPlayer();
                 }  else {
                     log("Player successfully blocked the enemy " + currEnemy.getName() + " attack.");
@@ -205,7 +227,9 @@ public class CombatActivity extends Activity {
             } else {
                 log("Player blocked, but the enemy was just charging!");
             }
-        } else {
+        } else /* player uses charge */ {
+            playerCharge++;
+
             if (enemyMove.getMoveType().equals("attack")) {
                 log("Enemy " + currEnemy.getName() + " attacked the player while charging!");
                 inflictDamageToPlayer();
@@ -213,6 +237,7 @@ public class CombatActivity extends Activity {
                 log("Both parties charged.");
             }
         }
+        updatePlayerAttacks();
     }
 
     private void inflictDamageToEnemy() {

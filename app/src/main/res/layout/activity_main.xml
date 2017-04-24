@@ -122,12 +122,12 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView5"
+        android:id="@+id/imgC"
         android:maxWidth="50dip"
         android:maxHeight="50dip"
         android:minHeight="50dip"
         android:minWidth="50dip"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/player_front"
         android:layout_below="@+id/imgN"
         android:layout_toRightOf="@+id/imgNW"
         android:layout_toEndOf="@+id/imgNW"/>
@@ -167,7 +167,7 @@
         android:minHeight="50dip"
         android:minWidth="50dip"
         android:src="@mipmap/img_block"
-        android:layout_below="@+id/imageView5"
+        android:layout_below="@+id/imgC"
         android:layout_toRightOf="@+id/imgSW"
         android:layout_toEndOf="@+id/imgSW"/>
 
