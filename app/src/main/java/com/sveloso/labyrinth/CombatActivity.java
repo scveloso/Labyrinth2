@@ -283,8 +283,8 @@ public class CombatActivity extends Activity {
     }
 
     private void log(String text) {
-        txtCombatLog.append(text);
-        txtCombatLog.append("\n");
-        txtCombatLog.invalidate();
+       txtCombatLog.append(text);
+       txtCombatLog.append("\n");
+       txtCombatLog.invalidate();
     }
 }

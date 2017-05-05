@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/firstLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toLeftOf="@+id/secondView"
+        android:layout_toStartOf="@id/secondView"
         android:orientation="vertical">
         
         <RelativeLayout
@@ -144,18 +147,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/secondView"
-        android:orientation="vertical">
-        
+        android:layout_toEndOf="@id/secondView">
+
         <RelativeLayout
             android:id="@+id/layoutPlayerControl"
             android:layout_width="170dp"
             android:layout_height="100dp"
             android:layout_marginTop="140dp"
             android:layout_centerHorizontal="true">
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="^"
+                android:text="@string/up"
                 android:id="@+id/btnUp"
                 android:layout_alignParentTop="true"
                 android:layout_centerVertical="true"
@@ -169,7 +173,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="v"
+                android:text="@string/down"
                 android:id="@+id/btnDown"
                 android:maxWidth="50dp"
                 android:width="50dp"
@@ -182,7 +186,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="&lt;"
+                android:text="@string/left"
                 android:id="@+id/btnLeft"
                 android:maxWidth="50dp"
                 android:width="50dp"
@@ -196,7 +200,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=">"
+                android:text="@string/right"
                 android:id="@+id/btnRight"
                 android:maxWidth="50dp"
                 android:width="50dp"

@@ -1,5 +1,6 @@
 package com.sveloso.labyrinth;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -21,7 +22,7 @@ import java.util.Random;
  *
  * The main game activity
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private static final int COMBAT_REQUEST = 0;
     public static final int COMBAT_RESULT_WIN = 1;

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/div_enemy"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4">
+
+        <ImageView
+            android:id="@+id/imgEnemySprite"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
+            app:srcCompat="@mipmap/img_enemy_easy" />
+
+        <TextView
+            android:id="@+id/txtEnemyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
+            android:text="Honeycomb" />
+
+        <ImageView
+            android:id="@+id/imgEnemyHealthRED"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/txtEnemyName"
+            android:layout_alignLeft="@id/txtEnemyName"
+            android:layout_alignStart="@id/txtEnemyName"
+            app:srcCompat="@android:color/holo_red_dark" />
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:id="@+id/imgEnemyHealth"
+            android:layout_alignLeft="@id/imgEnemyHealthRED"
+            android:layout_alignStart="@id/imgEnemyHealthRED"
+            android:layout_alignTop="@id/imgEnemyHealthRED"
+            app:srcCompat="@android:color/holo_green_dark">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/txtCombatLog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="11dp"
+            android:layout_toEndOf="@+id/imgEnemyHealthRED"
+            android:layout_toRightOf="@+id/imgEnemyHealthRED"
+            android:text="TextView" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/div_player"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4">
+
+        <ImageView
+            android:id="@+id/imgPlayerSprite"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/imgPlayerHealthRED"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="50dp"
+            android:layout_marginRight="50dp"
+            app:srcCompat="@android:color/holo_red_dark" />
+
+        <TextView
+            android:id="@+id/txtPlayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/imgPlayerHealthRED"
+            android:layout_alignLeft="@id/imgPlayerHealthRED"
+            android:layout_alignStart="@id/imgPlayerHealthRED"
+            android:text="Player" />
+
+        <ImageView
+            android:id="@+id/imgPlayerHealth"
+            android:layout_width="200dp"
+            android:layout_height="30dp"
+            android:layout_alignLeft="@id/imgPlayerHealthRED"
+            android:layout_alignStart="@id/imgPlayerHealthRED"
+            android:layout_alignTop="@id/imgPlayerHealthRED"
+            app:srcCompat="@android:color/holo_green_dark">
+        </ImageView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/div_moves"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6">
+
+        <Button
+            android:id="@+id/btnCharge"
+            android:text="Charge"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            android:id="@+id/btnAttack2"
+            android:layout_width="130dp"
+            android:layout_toLeftOf="@id/btnCharge"
+            android:layout_toStartOf="@id/btnCharge"
+            android:text="Double-bang"
+            android:layout_marginRight="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_alignTop="@id/btnCharge"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/btnAttack1"
+            android:layout_above="@id/btnAttack2"
+            android:text="Bang"
+            android:layout_alignLeft="@id/btnAttack2"
+            android:layout_alignStart="@id/btnAttack2"
+            android:layout_width="130dp"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/btnAttack3"
+            android:layout_below="@id/btnAttack2"
+            android:layout_width="130dp"
+            android:layout_alignLeft="@id/btnAttack2"
+            android:layout_alignStart="@id/btnAttack2"
+            android:layout_height="40dp"
+            android:text="Triple-bang"/>
+
+        <Button
+            android:id="@+id/btnBlock2"
+            android:layout_width="130dp"
+            android:layout_toRightOf="@id/btnCharge"
+            android:layout_toEndOf="@id/btnCharge"
+            android:text="Shield"
+            android:layout_marginLeft="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_alignTop="@id/btnCharge"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/btnBlock1"
+            android:layout_above="@id/btnBlock2"
+            android:text="Absorb"
+            android:layout_alignLeft="@id/btnBlock2"
+            android:layout_alignStart="@id/btnBlock2"
+            android:layout_width="130dp"
+            android:layout_height="40dp" />
+
+        <Button
+            android:id="@+id/btnBlock3"
+            android:layout_below="@id/btnBlock2"
+            android:layout_width="130dp"
+            android:layout_alignLeft="@id/btnBlock2"
+            android:layout_alignStart="@id/btnBlock2"
+            android:layout_height="40dp"
+            android:text="Block"/>
+    </RelativeLayout>
+</LinearLayout>
